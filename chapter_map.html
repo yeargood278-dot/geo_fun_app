@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>思维导图</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/mermaid.min.js"></script> 
+    <style>
+        body { background: #f8f9fa; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .nav-btn-group { display: flex; overflow-x: auto; white-space: nowrap; padding-bottom: 5px; }
+        .nav-btn-group a { margin-left: 5px; flex-shrink: 0; }
+        .map-viewport { flex: 1; overflow: auto; display: flex; justify-content: center; padding: 20px; -webkit-overflow-scrolling: touch; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-white px-2 justify-content-between shadow-sm">
+        <a href="index.html" class="btn btn-outline-secondary btn-sm rounded-pill me-2">🏠</a>
+        <span class="navbar-brand fw-bold fs-6 text-truncate" id="page-title">地图</span>
+        <div class="nav-btn-group">
+            <a href="chapter_map.html?bid=b1" class="btn btn-sm btn-outline-primary rounded-pill">必1</a>
+            <a href="chapter_map.html?bid=b2" class="btn btn-sm btn-outline-warning rounded-pill">必2</a>
+            <a href="chapter_map.html?bid=xb1" class="btn btn-sm btn-outline-success rounded-pill">选1</a>
+            <a href="chapter_map.html?bid=xb2" class="btn btn-sm btn-outline-secondary rounded-pill" style="color:#9b59b6;border-color:#9b59b6;">选2</a>
+            <a href="chapter_map.html?bid=xb3" class="btn btn-sm btn-outline-danger rounded-pill">选3</a>
+        </div>
+    </nav>
+    <div class="map-viewport">
+        <div class="mermaid" id="mermaid-box"></div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script>
+        const bid = getQueryParam('bid') || 'b1';
+        const currentBook = books[bid];
+        document.title = currentBook.title;
+        document.getElementById('page-title').innerText = currentBook.title;
+        
+        // 渲染 Mermaid
+        const mapCode = mindmaps[bid] || mindmaps['b1'];
+        document.getElementById('mermaid-box').innerHTML = mapCode;
+        
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base', 
+            securityLevel: 'loose', // 允许点击事件
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' } 
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>地理乐 (Geo_Fun)</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif; padding-top: 20px; }
+        .book-card { transition: all 0.3s; cursor: pointer; border: none; border-radius: 20px; overflow: hidden; position: relative; margin-bottom: 20px; }
+        .book-card:active { transform: scale(0.95); }
+        .icon-box { font-size: 3.5rem; margin-bottom: 10px; }
+        .status-badge { position: absolute; top: 15px; right: 15px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <h1 class="display-5 fw-bold mb-4 animate__animated animate__fadeInDown">🌍 地理乐</h1>
+        <div class="row justify-content-center g-3" id="book-list">
+            </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script>
+        const container = document.getElementById('book-list');
+        for (const [id, book] of Object.entries(books)) {
+            const badge = book.status === 'active' 
+                ? '<span class="badge bg-success rounded-pill status-badge">已完结</span>' 
+                : '<span class="badge bg-secondary rounded-pill status-badge">开发中</span>';
+            
+            const html = `
+                <div class="col-6 col-md-4 col-lg-3 animate__animated animate__fadeInUp">
+                    <div class="card book-card h-100 p-3" onclick="location.href='chapter_map.html?bid=${id}'" style="background: white;">
+                        <div class="card-body p-2">
+                            ${badge}
+                            <div class="icon-box animate__animated animate__pulse animate__infinite">${book.icon}</div>
+                            <h5 class="fw-bold mb-2" style="color: ${book.color}">${book.title}</h5>
+                            <p class="text-muted small mb-0 d-none d-sm-block">${book.desc}</p>
+                        </div>
+                    </div>
+                </div>`;
+            container.innerHTML += html;
+        }
+    </script>
+</body>
+</html>
